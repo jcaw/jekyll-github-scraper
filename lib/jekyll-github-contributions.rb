@@ -35,6 +35,14 @@ module Jekyll
         results = JSON.parse(response.body)
         contributions.concat(results['items'])
 
+        # Parse info into some extra fields
+        for contribution in contributions do
+          owner, repo = contribution['repository_url'].split('/')[-2..]
+          contribution['repo_owner'] = owner
+          contribution['repo_name'] = repo
+          contribution['repo'] = [owner, repo].join('/')
+        end
+
         break if page >= settings['page_limit'].to_i
         break if contributions.length >= results['total_count']
         page += 1
