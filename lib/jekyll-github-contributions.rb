@@ -31,9 +31,9 @@ module Jekyll
 
   # Generates a github contributions data file
   class GithubContributionsGenerator < Jekyll::Generator
-    CONTRIBUTIONS_FILE = '_data/github-contributions.json'.freeze
-    SOURCES_FILE = '_data/github-sources.json'.freeze
-    RECENT_PRS_FILE = '_data/recent-merged-prs.json'.freeze
+    CONTRIBUTIONS_KEY = 'github-contributions'.freeze
+    SOURCES_KEY       = 'github-sources'.freeze
+    RECENT_PRS_KEY    = 'github-recent-merged-prs'.freeze
 
     CONTRIBUTIONS_QUERY = Client.parse <<-'GRAPHQL'
       query($start_date: DateTime, $end_date: DateTime, $login: String!) {
@@ -84,6 +84,24 @@ module Jekyll
       }
     GRAPHQL
 
+    def data_file(key)
+      return "_data/#{key}.json"
+    end
+
+    # Stores `value` under `key` in site.data, and writes a json cache for
+    # future builds.
+    def store_data(site, key, value)
+      Jekyll.logger.info "  Storing #{key}"
+      site.data[key] = value
+      # Sometimes we won't have write permissions in the environment. That's
+      # fine, just don't cache.
+      begin
+        Dir.mkdir('_data') unless Dir.exist?('_data')
+        File.write(data_file(key), value.to_json)
+        # TODO: Only catch permission exceptions?
+      rescue; end
+    end
+
     # TODO: Consistent strings
     def generate(site)
       settings = {
@@ -95,7 +113,7 @@ module Jekyll
 
       # TODO: Maybe query all the files?
       cache_valid = true
-      for filename in [CONTRIBUTIONS_FILE, SOURCES_FILE, RECENT_PRS_FILE] do
+      for filename in [data_file(CONTRIBUTIONS_KEY), data_file(SOURCES_KEY), data_file(RECENT_PRS_KEY)] do
         if !(File.exist?(filename) && (File.mtime(filename) + settings['cache']) > Time.now) then
           cache_valid = false
           break
@@ -177,16 +195,12 @@ module Jekyll
 
       #######################################################################
 
-      Dir.mkdir('_data') unless Dir.exist?('_data')
       unless repos.nil? then
-        Jekyll.logger.info '  Saving contributions'
-        File.write(CONTRIBUTIONS_FILE, contributions.values.to_json)
-        Jekyll.logger.info '  Saving sources'
-        File.write(SOURCES_FILE, sources.values.to_json)
+        store_data(site, CONTRIBUTIONS_KEY, contributions.values)
+        store_data(site, SOURCES_KEY, sources.values)
       end
       unless recent_merged_prs.nil? then
-        Jekyll.logger.info '  Saving recent PRs'
-        File.write(RECENT_PRS_FILE, recent_merged_prs.to_json)
+        store_data(site, RECENT_PRS_KEY, recent_merged_prs)
       end
     end
   end
