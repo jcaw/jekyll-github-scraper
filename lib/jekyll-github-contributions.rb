@@ -34,9 +34,6 @@ module Jekyll
     CONTRIBUTIONS_FILE = '_data/github-contributions.json'.freeze
     SOURCES_FILE = '_data/github-sources.json'.freeze
     RECENT_PRS_FILE = '_data/recent-merged-prs.json'.freeze
-    # GITHUB_API_HOST = 'api.github.com'.freeze
-    # CONTRIBUTIONS_URL = '/search/issues?q=type:pr+is:merged+author:%s&per_page=100&page=%i'.freeze
-    # CONTRIBUTORS_URL = '/repos/:owner/:repo/stats/contributors'.freeze
 
     CONTRIBUTIONS_QUERY = Client.parse <<-'GRAPHQL'
       query($start_date: DateTime, $end_date: DateTime, $login: String!) {
