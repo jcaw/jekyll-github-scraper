@@ -175,11 +175,9 @@ module Jekyll
       #######################################################################
 
       Dir.mkdir('_data') unless Dir.exist?('_data')
-      unless contributions.nil? then
+      unless repos.nil? then
         Jekyll.logger.info '  Saving contributions'
         File.write(CONTRIBUTIONS_FILE, contributions.values.to_json)
-      end
-      unless sources.size.nil? then
         Jekyll.logger.info '  Saving sources'
         File.write(SOURCES_FILE, sources.values.to_json)
       end
