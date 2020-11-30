@@ -7,9 +7,9 @@ Why do this via a generator instead of with Javascript? The Github API rate limi
 ## Install
 
 * Add the repo as a git source to your Jekyll Gemfile: 
-```Gemfile
-gem "jekyll-github-contributions", git: "https://github.com/jcaw/jekyll-github-contributions"
-```
+  ```Gemfile
+  gem "jekyll-github-contributions", git: "https://github.com/jcaw/jekyll-github-contributions"
+  ```
 * Add `jekyll-github-contributions` to the gems list within your Jekyll site's `_config.yml`
 
 ## Config
