@@ -40,6 +40,8 @@ module Jekyll
         user(login: $login) {
           createdAt
           pullRequests (first: 10, states: [MERGED], orderBy: { field:UPDATED_AT, direction:DESC }) {
+          # We only need to get the pull requests once, but it costs no more
+          # API tokens to bundle here so just throw it into every request.
             nodes {
               title
               repository {
