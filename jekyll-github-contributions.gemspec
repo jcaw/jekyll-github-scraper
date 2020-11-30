@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/jcotton1123/jekyll-github-contributions'
 
   s.add_runtime_dependency 'jekyll', '~> 4.0'
+  s.add_runtime_dependency 'graphql-client'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rubocop'
