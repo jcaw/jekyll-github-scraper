@@ -6,9 +6,9 @@ require 'graphql/client/http'
 
 
 module Jekyll
-  TOKEN = ENV["github_api_key"]  
+  TOKEN = ENV["GITHUB_API_KEY"]
   if TOKEN == nil or TOKEN == "" then
-    raise "No API key provided - cannot query GitHub API without a valid key. Please set the environment variable `github_api_key` before the Jekyll build."
+    raise "No API key provided - cannot query GitHub API without a valid key. Please set the environment variable `GITHUB_API_KEY` before the Jekyll build."
   end
 
   HTTP = GraphQL::Client::HTTP.new('https://api.github.com/graphql') do
