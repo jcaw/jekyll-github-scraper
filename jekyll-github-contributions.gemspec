@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.summary     = 'Jekyll generator plugin that generates a Github contributions data file'
   s.description = File.read('README.md')
   s.license     = 'Apache 2'
-  s.authors     = ['Jesse Cotton']
-  s.email       = 'jcotton1123@gmail.com'
+  s.authors     = ['Jesse Cotton', 'Jcaw']
+  s.email       = ['jcotton1123@gmail.com', 'toastedjcaw@gmail.com']
   s.files       = [*Dir['lib/**/*.rb'], 'README.md', 'LICENSE']
   s.homepage    = 'https://github.com/jcotton1123/jekyll-github-contributions'
 
