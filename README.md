@@ -2,39 +2,29 @@
 
 Jekyll generator plugin that generates a Github contributions data file.
 
-Why do this via a generator instead of with Javascript?
-
-B/c Github API rate limits anonymous API requests pretty aggressively.
+Why do this via a generator instead of with Javascript? The Github API rate limits API requests.
 
 ## Install
 
-* Add `jekyll-github-contributions` to your Jekyll Gemfile
-* Add `jekyll-github-contributions` to the gems list within Jekyll's `_config.yml`
+* Add the repo as a git source to your Jekyll Gemfile: 
+```Gemfile
+gem "jekyll-github-contributions", git: "https://github.com/jcaw/jekyll-github-contributions"
+```
+* Add `jekyll-github-contributions` to the gems list within your Jekyll site's `_config.yml`
 
 ## Config
 
 Add the following to `_config.yml` and adjust as desired:
 
-```
+```yml
 githubcontributions:
-  username: JCotton1123 # Github username
-  page_limit: 3 # Number of pages of data to grab from Github
+  username: jcaw # Github username
   cache: 300 # Number of seconds to cache the data file
+  # Optional - pass this to override & get contributions from before you joined 
+  # (or ignore early years)
+  # start_year: 2018
 ```
 
 ## Usage
 
-Within a page, post, or layout:
-
-```erb
-<div id="contributions" class="contributions">
-  <h3>Some recent open source contributions I've made:</h3>
-  <ul>
-  {% for contribution in site.data.github-contributions limit:10 %}
-    <li>
-      <a href="{{ contribution.html_url }}">{{ contribution.title }}</a>
-    </li>
-  {% endfor %}
-  </ul> 
-</div>
-```
+*TODO*
