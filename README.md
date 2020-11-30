@@ -18,8 +18,10 @@ Add the following to `_config.yml` and adjust as desired:
 
 ```yml
 githubcontributions:
-  username: jcaw # Github username
-  cache: 300 # Number of seconds to cache the data file
+  # Github username
+  username: jcaw
+  # Number of seconds to cache the data file
+  cache: 300
   # Optional - pass this to override & get contributions from before you joined 
   # (or ignore early years)
   # start_year: 2018
