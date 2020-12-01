@@ -98,14 +98,9 @@ module Jekyll
     def store_data(site, key, value)
       Jekyll.logger.info "  Storing #{key}"
       site.data[key] = value
-      # Sometimes we won't have write permissions in the environment. That's
-      # fine, just don't cache.
-      begin
-        dir = data_dir(site)
-        Dir.mkdir(dir) unless Dir.exist?(dir)
-        File.write(data_file(site, key), value.to_json)
-        # TODO: Only catch permission exceptions?
-      rescue; end
+      dir = data_dir(site)
+      Dir.mkdir(dir) unless Dir.exist?(dir)
+      File.write(data_file(site, key), value.to_json)
     end
 
     # TODO: Consistent strings
