@@ -84,8 +84,13 @@ module Jekyll
       }
     GRAPHQL
 
-    def data_file(key)
-      return "_data/#{key}.json"
+    def data_dir(site)
+      # TODO: test `data_source` here works
+      return site.source["data_source"] || File.join(site.source, site.config["data_dir"])
+    end
+
+    def data_file(site, key)
+      return File.join(data_dir(site), "#{key}.json")
     end
 
     # Stores `value` under `key` in site.data, and writes a json cache for
@@ -96,8 +101,9 @@ module Jekyll
       # Sometimes we won't have write permissions in the environment. That's
       # fine, just don't cache.
       begin
-        Dir.mkdir('_data') unless Dir.exist?('_data')
-        File.write(data_file(key), value.to_json)
+        dir = data_dir(site)
+        Dir.mkdir(dir) unless Dir.exist?(dir)
+        File.write(data_file(site, key), value.to_json)
         # TODO: Only catch permission exceptions?
       rescue; end
     end
@@ -113,7 +119,7 @@ module Jekyll
 
       # TODO: Maybe query all the files?
       cache_valid = true
-      for filename in [data_file(CONTRIBUTIONS_KEY), data_file(SOURCES_KEY), data_file(RECENT_PRS_KEY)] do
+      for filename in [data_file(site, CONTRIBUTIONS_KEY), data_file(site, SOURCES_KEY), data_file(site, RECENT_PRS_KEY)] do
         if !(File.exist?(filename) && (File.mtime(filename) + settings['cache']) > Time.now) then
           cache_valid = false
           break
