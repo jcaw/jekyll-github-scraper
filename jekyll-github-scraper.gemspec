@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'jekyll-github-contributions'
+  s.name        = 'jekyll-github-scraper'
   s.version     = '0.1.1'
   s.summary     = 'Jekyll generator plugin that generates a Github contributions data file'
   s.description = File.read('README.md')
@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Jesse Cotton', 'Jcaw']
   s.email       = ['jcotton1123@gmail.com', 'toastedjcaw@gmail.com']
   s.files       = [*Dir['lib/**/*.rb'], 'README.md', 'LICENSE']
-  s.homepage    = 'https://github.com/jcotton1123/jekyll-github-contributions'
+  s.homepage    = 'https://github.com/jcaw/jekyll-github-scraper'
 
   s.add_runtime_dependency 'jekyll', '~> 4.0'
   s.add_runtime_dependency 'graphql-client'

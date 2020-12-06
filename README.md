@@ -1,4 +1,4 @@
-# Jekyll Github Contributions Plugin
+# Jekyll Github Contributions Scraper
 
 Jekyll generator plugin that generates a Github contributions data file.
 
@@ -8,9 +8,10 @@ Why do this via a generator instead of with Javascript? The Github API rate limi
 
 * Add the repo as a git source to your Jekyll Gemfile: 
   ```Gemfile
-  gem "jekyll-github-contributions", git: "https://github.com/jcaw/jekyll-github-contributions"
+  gem "jekyll-github-scraper", git: "https://github.com/jcaw/jekyll-github-scraper"
   ```
-* Add `jekyll-github-contributions` to the gems list within your Jekyll site's `_config.yml`
+* Add `jekyll-github-scraper` to the gems list within your Jekyll site's `_config.yml`
+<!-- ^ TODO: Is this still necessary? -->
 
 ## Config
 
