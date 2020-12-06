@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'jekyll-github-scraper'
-  s.version     = '0.1.1'
+  s.version     = '2.0.0'
   s.summary     = "Jekyll plugin that automatically pulls the projects you've contributed to from GitHub"
   s.description = File.read('README.md')
   s.license     = 'Apache 2'
