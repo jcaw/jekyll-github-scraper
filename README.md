@@ -1,10 +1,8 @@
 # Jekyll Github Contributions Scraper
 
-Jekyll generator plugin that gets details of all your open source contributions from the GitHub GraphQL API. The most important information that's pulled is every project you've contributed to (including your own), with the volume of your contributions.
+Jekyll generator plugin that gets details of all your open source contributions from the GitHub GraphQL API. The most important information that's pulled is every project you've contributed to (including your own), with the volume of your contributions. Your most recent pull requests (with diff counts) are also pulled, in case you'd like to display them as a feed.
 
-You can use this information to create a portfolio on your Jekyll site. Put it in a table and you have a summary of all your open-source experience, that updates automatically. Your most recent pull requests (with diff counts) are also pulled in case you'd like to display them as a feed.
-
-The information is all saved as JSON in your `_data` folder, so it's accessible from liquid templates.
+You can use this information to create a portfolio on your Jekyll site. Put it in a table and you have a summary of all your open-source experience that updates automatically. The information is all saved as JSON in your `_data` folder, so it's accessible with liquid templates.
 
 This is done as a generator rather than with client-side Javascript because the Github v4 API requires authentication and limits requests.
 
