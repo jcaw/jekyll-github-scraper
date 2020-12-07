@@ -13,7 +13,6 @@ This is done as a generator rather than with client-side Javascript because the 
   gem "jekyll-github-scraper", git: "https://github.com/jcaw/jekyll-github-scraper"
   ```
 * Add `jekyll-github-scraper` to the gems list within your Jekyll site's `_config.yml`
-<!-- ^ TODO: Is this still necessary? -->
 
 ## Usage
 
@@ -38,4 +37,4 @@ To update your contributions automatically, you might want to set up a manual Gi
 
 ## Displaying Results
 
-TODO: I'd like to include some boilerplate examples displaying the information that's pulled, but for now just make table and iterate over every contribution, inserting a row with the information you want for each repo. 
+On the to do list. I'd like to include some boilerplate examples displaying the information that's pulled, but for now just make table and iterate over every contribution, inserting a row with the information you want for each repo. 
