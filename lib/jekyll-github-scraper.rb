@@ -78,6 +78,26 @@ module Jekyll
                   totalCount
                 }
               }
+              pullRequestContributionsByRepository(maxRepositories: 100) {
+                repository {
+                  owner {
+                    login
+                  }
+                  name
+                  nameWithOwner
+                  url
+                  description
+                  languages(first:100) {
+                    nodes {
+                      color
+                      name
+                    }
+                  }
+                }
+                contributions {
+                  totalCount
+                }
+              }
             }
           }
         }
@@ -112,6 +132,15 @@ module Jekyll
         dir = data_dir(site)
         Dir.mkdir(dir) unless Dir.exist?(dir)
         File.write(data_file(site, key), value.to_json)
+      end
+
+      # Array copy with all members duplicated
+      def dup_members(array)
+        out = []
+        for item in array do
+          out.append(item.dup)
+        end
+        return out
       end
 
       # TODO: Consistent strings
@@ -163,23 +192,49 @@ module Jekyll
             Jekyll.logger.info '  User joined in %s - querying back to the start of %s' % [earliest_year, earliest_year]
           end
 
-          repos = user['contributionsCollection']['commitContributionsByRepository']
+          collection = user['contributionsCollection']
+          repos = dup_members(collection['commitContributionsByRepository'])
+          pr_repos = dup_members(collection['pullRequestContributionsByRepository'])
+          # Add some meta information to differentiate seemingly identical
+          # contributions.
+          for repo in repos do
+            repo['type'] = "commit"
+          end
+          for repo in pr_repos do
+            repo['type'] = "pr"
+          end
 
-          for datum in repos do
+          for datum in repos + pr_repos do
             repo = datum['repository']
             owner = repo['owner']['login']
             repo_name = repo['name']
             # TODO: swap `full_name` over to `nameWithOwner`
             full_name = '%s/%s' % [owner, repo_name]
-            count = datum['contributions']['totalCount']
+            contribution_count = datum['contributions']['totalCount']
+            # HACK: O(n^2) with this comparison method, but that's fine
+            if pr_repos.include? datum then
+              # It's a PR contribution
+              commit_count = 0
+              pr_count = contribution_count
+            else
+              # It's a commit contribution
+              commit_count = contribution_count
+              pr_count = 0
+            end
+
             if contributions.assoc(full_name) then
-              contributions[full_name]['n_commits'] += count
+              info = contributions[full_name]
+              info['n_commits'] += commit_count
+              info['n_prs'] += pr_count
             elsif sources.assoc(full_name) then
-              sources[full_name]['n_commits'] += count
+              info = sources[full_name]
+              info['n_commits'] += commit_count
+              info['n_prs'] += pr_count
             else
               info = repo.dup
               info['full_name'] = full_name
-              info['n_commits'] = count
+              info['n_commits'] = commit_count
+              info['n_prs'] = pr_count
               info['description_no_emojis'] = remove_emojis(info['description'])
               # URL to view all PRs from `username`. We don't restrict to just
               # merged PRs because some projects don't merge directly - they close
@@ -196,6 +251,11 @@ module Jekyll
               end
             end
           end
+
+          # Remove repos that only have PRs but no commits. We just assume the
+          # user hasn't had any contributions accepted (yet) in these repos.
+          contributions.delete_if{|k,c| c['n_commits'] == 0}
+
 
           if year == current_year then
             # TODO: Maybe get the most recent 100, then gather 10 from that (so I
