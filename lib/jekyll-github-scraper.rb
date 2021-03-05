@@ -220,7 +220,7 @@ module Jekyll
             full_name = '%s/%s' % [owner, repo_name]
             contribution_count = datum['contributions']['totalCount']
             # HACK: O(n^2) with this comparison method, but that's fine
-            if pr_repos.include? datum then
+            if datum['type'] == 'pr' then
               # It's a PR contribution
               commit_count = 0
               pr_count = contribution_count
