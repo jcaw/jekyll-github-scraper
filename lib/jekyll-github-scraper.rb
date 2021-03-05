@@ -252,9 +252,6 @@ module Jekyll
             end
           end
 
-          # Remove repos that only have PRs but no commits. We just assume the
-          # user hasn't had any contributions accepted (yet) in these repos.
-          contributions.delete_if{|k,c| c['n_commits'] == 0}
 
 
           if year == current_year then
@@ -265,6 +262,11 @@ module Jekyll
 
           year -= 1
         end
+
+        # Remove repos that have no commits, even if they have PRs. We just
+        # assume the user hasn't had any contributions accepted (yet) in these
+        # repos.
+        contributions.delete_if{|k,c| c['n_commits'] == 0}
 
         #######################################################################
 
