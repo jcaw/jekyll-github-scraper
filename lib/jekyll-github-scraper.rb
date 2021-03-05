@@ -193,18 +193,18 @@ module Jekyll
           end
 
           collection = user['contributionsCollection']
-          repos = dup_members(collection['commitContributionsByRepository'])
-          pr_repos = dup_members(collection['pullRequestContributionsByRepository'])
+          commits = dup_members(collection['commitContributionsByRepository'])
+          prs = dup_members(collection['pullRequestContributionsByRepository'])
           # Add some meta information to differentiate seemingly identical
           # contributions.
-          for repo in repos do
-            repo['type'] = "commit"
+          for commit in commits do
+            commit['type'] = 'commit'
           end
-          for repo in pr_repos do
-            repo['type'] = "pr"
+          for pr in prs do
+            pr['type'] = 'pr'
           end
 
-          for datum in repos + pr_repos do
+          for datum in commits + prs do
             repo = datum['repository']
             owner = repo['owner']['login']
             repo_name = repo['name']
@@ -268,7 +268,7 @@ module Jekyll
 
         #######################################################################
 
-        unless repos.nil? then
+        unless commits.nil? and prs.nil? then
           store_data(site, CONTRIBUTIONS_KEY, contributions.values)
           store_data(site, SOURCES_KEY, sources.values)
         end
