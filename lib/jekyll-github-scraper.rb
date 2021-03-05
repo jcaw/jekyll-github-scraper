@@ -178,6 +178,8 @@ module Jekyll
         username = settings['username']
         # We only want to get records from years the user was a member. If no
         # override is provided, this will be determined from the first query.
+        #
+        # TODO: Use `hasActivityInThePast` field for this instead?
         earliest_year = settings['start_year'] || -1
         contributions = {}
         sources = {}
