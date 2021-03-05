@@ -67,6 +67,10 @@ module Jekyll
                   nameWithOwner
                   url
                   description
+                  primaryLanguage {
+                    color
+                    name
+                  }
                   languages(first:100) {
                     nodes {
                       color
@@ -87,6 +91,10 @@ module Jekyll
                   nameWithOwner
                   url
                   description
+                  primaryLanguage {
+                    color
+                    name
+                  }
                   languages(first:100) {
                     nodes {
                       color
@@ -242,6 +250,18 @@ module Jekyll
               url = repo['url']
               info['my_pulls_url'] = '%s/pulls?q=author%%3A%s' % [url, username]
               info['my_commits_url'] = '%s/commits?author=%s' % [url, username]
+              # HACK: Languages may not be in the right order, so manually
+              #   replace the top language. This is pretty gross, ideally
+              #   replace at some point.
+              primary_language = info['primaryLanguage']
+              secondary_languages = info['languages']['nodes'].dup || []
+              secondary_languages.delete(primary_language)
+              if primary_language then
+                info['languages'] = [primary_language] + secondary_languages
+              else
+                info['languages'] = secondary_languages
+              end
+              info['secondary_languages'] = secondary_languages
               # TODO: Maybe a list of all my commits? E.g. for projects with a
               #   different PR structure.
               if owner.downcase.eql? username.downcase then
